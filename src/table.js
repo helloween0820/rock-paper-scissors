@@ -9,7 +9,7 @@ const TableStyled = styled.div`
   grid-template-columns: 130px 130px;
   justify-content: center;
   justify-items: center;
-  grid-gap: 50px;
+  grid-gap: 30px 50px;
   margin: 2em 0;
   position: relative;
   & div:nth-of-type(3) {
@@ -34,6 +34,9 @@ const TableStyled = styled.div`
     letter-spacing: 1px;
     text-transform: uppercase;
   }
+  @media screen and (min-width: 768px) {
+    grid-gap: 30px 140px;
+  }
 `;
 const elements = ["paper", "scissors", "rock"];
 function Table() {
@@ -41,7 +44,8 @@ function Table() {
   const [pick, setPick] = useState("");
   const [results, setResults] = useState("");
   const [housePick, setHousePick] = useState("default");
-  const { score, setScore } = useContext(ScoreContext);
+  const { score, setScore, scoreMachine, setScoreMachine } =
+    useContext(ScoreContext);
   function getRandomInit(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
   }
@@ -66,9 +70,12 @@ function Table() {
     const house = await launchHousePick();
     const results = victory(name, house);
     setResults(results);
-    console.log(results);
+
     if (results === "Ganaste") {
       setScore(score + 1);
+    }
+    if (results === "Perdiste, la maquina gana") {
+      setScoreMachine(scoreMachine + 1);
     }
   }
   const victory = (pick, housePick) => {
@@ -77,7 +84,7 @@ function Table() {
     }
     if (pick === "paper") {
       if (housePick === "scissors") {
-        return "Perdiste";
+        return "Perdiste, la maquina gana";
       }
       if (housePick === "rock") {
         return "Ganaste";
@@ -88,7 +95,7 @@ function Table() {
         return "Ganaste";
       }
       if (housePick === "rock") {
-        return "Perdiste";
+        return "Perdiste, la maquina gana";
       }
     }
     if (pick === "rock") {
@@ -96,12 +103,13 @@ function Table() {
         return "Ganaste";
       }
       if (housePick === "paper") {
-        return "Perdiste";
+        return "Perdiste, la maquina gana";
       }
     }
   };
   function handleTryAgain() {
     setInGame(false);
+    setResults("");
   }
   return (
     <TableStyled>
@@ -119,12 +127,15 @@ function Table() {
       ) : (
         <>
           <div className="in-game">
-            <Token name={pick} />
+            <Token name={pick} isShadowAnimaned={results === "Ganaste"} />
             <p>tu elegiste</p>
           </div>
           <div className="in-game">
-            <Token name={housePick} />
-            <h3>La casa eligio</h3>
+            <Token
+              name={housePick}
+              isShadowAnimaned={results === "Perdiste, la maquina gana"}
+            />
+            <p>La maquina eligio</p>
           </div>
           <div className="results">
             <h2>{results} </h2>

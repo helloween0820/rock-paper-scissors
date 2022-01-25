@@ -16,6 +16,13 @@ const HeaderStyled = styled.div`
     font-weight: 700;
     text-transform: uppercase;
   }
+  @media screen and (min-width: 768px) {
+    padding: 24px;
+    h1 {
+      font-size: 36px;
+      line-height: 0.9;
+    }
+  }
 `;
 
 function Header() {

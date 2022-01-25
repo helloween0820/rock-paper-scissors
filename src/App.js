@@ -26,10 +26,13 @@ const AppStyled = styled.main`
 `;
 function App() {
   const [score, setScore] = useState(0);
+  const [scoreMachine, setScoreMachine] = useState(0);
   return (
     <ScoreContext.Provider
       value={{
         score,
+        scoreMachine,
+        setScoreMachine,
         setScore,
       }}
     >

@@ -27,6 +27,13 @@ const RulesStyled = styled.div`
   .close {
     margin-top: 2em;
   }
+  @media screen and (min-width: 1024px) {
+    .button {
+      position: fixed;
+      right: 2em;
+      bottom: 2em;
+    }
+  }
 `;
 function Rules() {
   const [visible, setVisible] = useState(false);
@@ -47,7 +54,10 @@ function Rules() {
           />
         </div>
       )}
-      <Button onClick={handleToggleClick}> REGLAS </Button>
+      <Button onClick={handleToggleClick} className="button">
+        {" "}
+        REGLAS{" "}
+      </Button>
     </RulesStyled>
   );
 }
