@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { ScoreContext, ScoreMachineContext } from "./App";
+import { ScoreContext } from "./App";
 
 const ScoreStyled = styled.div`
   .puntaje {
@@ -29,7 +29,7 @@ const ScoreStyled = styled.div`
     width: 70px;
     font-size: 12px;
     text-transform: uppercase;
-    margin-top: -85px;
+    margin-top: -87px;
   }
   @media screen and (min-width: 768px) {
     p {

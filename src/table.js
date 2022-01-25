@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { ScoreContext } from "./App";
-import Button, { WhiteButton } from "./button";
+import { WhiteButton } from "./button";
 import Token from "./token";
 
 const TableStyled = styled.div`
@@ -16,7 +16,7 @@ const TableStyled = styled.div`
     grid-column: span 2;
   }
   .triangulo {
-    display: ${({ inGame }) => (!inGame ? "none" : "flex")};
+    display: ${({ inGame }) => (!inGame ? "block" : "none")};
     position: absolute;
     height: 250px;
     bottom: 0px;
@@ -34,8 +34,35 @@ const TableStyled = styled.div`
     letter-spacing: 1px;
     text-transform: uppercase;
   }
-  @media screen and (min-width: 768px) {
-    grid-gap: 30px 140px;
+  @media screen and (min-width: 1024px) {
+    grid-template-columns: 300px 300px;
+    & div:nth-of-type(3) {
+      ${({ inGame, results }) =>
+        inGame && results && " grid: 2 span;grid-column: 2 / 4;grid-row: 1;"};
+    }
+    ${({ inGame, results }) =>
+      inGame && results && " grid-template-columns: 300px 110px 110px 300px"};
+    .in-game {
+      font-size: 1.2em;
+      display: flex;
+      flex-direction: column;
+      div {
+        order: 2;
+      }
+      p {
+        order: 1;
+        margin-bottom: 2em;
+      }
+    }
+    .triangulo {
+      height: 350px;
+    }
+    .results {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
   }
 `;
 const elements = ["paper", "scissors", "rock"];
@@ -112,7 +139,7 @@ function Table() {
     setResults("");
   }
   return (
-    <TableStyled>
+    <TableStyled inGame={inGame} results={results !== ""}>
       <img
         src="./images/bg-triangle.svg"
         alt="triangulo"
@@ -127,19 +154,30 @@ function Table() {
       ) : (
         <>
           <div className="in-game">
-            <Token name={pick} isShadowAnimaned={results === "Ganaste"} />
+            <Token
+              name={pick}
+              isShadowAnimaned={results === "Ganaste"}
+              inGame={inGame}
+            />
             <p>tu elegiste</p>
           </div>
           <div className="in-game">
             <Token
               name={housePick}
               isShadowAnimaned={results === "Perdiste, la maquina gana"}
+              inGame={inGame}
             />
             <p>La maquina eligio</p>
           </div>
           <div className="results">
-            <h2>{results} </h2>
-            <WhiteButton onClick={handleTryAgain}> Jugar Otra vez </WhiteButton>
+            {results && (
+              <>
+                <h2>{results} </h2>
+                <WhiteButton onClick={handleTryAgain}>
+                  Jugar Otra vez
+                </WhiteButton>
+              </>
+            )}
           </div>
         </>
       )}

@@ -29,9 +29,14 @@ const TokenStyled = styled.div`
     border-radius: 50%;
     display: flex;
   }
-  @media screen and (min-width: 768px) {
-    width: 200px;
-    height: 195px;
+  @media screen and (min-width: 1024px) {
+    ${({ inGame }) =>
+      inGame
+        ? "width: 300px; height: 295px;  border-width: 32px;"
+        : "width: 200px; height: 195px;border-width: 22px;"}
+  }
+ 
+   
   }
 `;
 
@@ -54,7 +59,7 @@ const colors = {
   },
 };
 
-function Token({ name = "", onClick, isShadowAnimaned = false }) {
+function Token({ name = "", onClick, isShadowAnimaned = false, inGame }) {
   function handleClick() {
     if (onClick) {
       onClick(name);
@@ -66,6 +71,7 @@ function Token({ name = "", onClick, isShadowAnimaned = false }) {
       color={color}
       onClick={handleClick}
       isShadowAnimaned={isShadowAnimaned}
+      inGame={inGame}
     >
       <div className="box">
         <img src={`./images/icon-${name}.svg`} alt="" />
